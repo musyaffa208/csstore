@@ -371,3 +371,29 @@
     border-color: rgba(255,255,255,0.4);
     box-shadow: 0 6px 20px rgba(0,0,0,0.25);
 }
+
+
+/* Pastikan wrapper berada di atas elemen lainnya */
+.link-wrapper {
+    position: relative;
+    z-index: 10;
+}
+
+/* Saat menu dibuka, naikkan seluruh wrapper */
+.link-wrapper:has(.action-menu.show) {
+    z-index: 9999;
+}
+
+/* Dropdown berada di atas ballon */
+.action-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 10px;
+    z-index: 10000;
+}
+
+/* Pastikan menu terlihat */
+.action-menu.show {
+    display: block !important;
+}
+
