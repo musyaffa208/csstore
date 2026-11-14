@@ -117,62 +117,94 @@
         bgContainer.style.backgroundImage = `url(${backgrounds[0]})`;
 
         // Auto open links
-        // Dropdown Menu
-        document.querySelectorAll('.link-wrapper').forEach(wrapper => {
-        
-            const moreBtn = wrapper.querySelector('.more-btn');
-            const menu = wrapper.querySelector('.action-menu');
-            const link = wrapper.querySelector('.link-item');
-        
-            // Buka / tutup menu
-            moreBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-        
-                document.querySelectorAll('.action-menu').forEach(m => {
-                    if (m !== menu) m.classList.remove('show');
-                });
-        
-                menu.classList.toggle('show');
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    const wrappers = document.querySelectorAll('.link-wrapper');
+
+    wrappers.forEach(wrapper => {
+
+        const moreBtn = wrapper.querySelector('.more-btn');
+        const menu = wrapper.querySelector('.action-menu');
+        const link = wrapper.querySelector('.link-item');
+
+        if (!moreBtn || !menu || !link) return;
+
+        // Klik titik tiga
+        moreBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const isOpen = menu.classList.contains('show');
+
+            // Tutup semua menu
+            document.querySelectorAll('.action-menu').forEach(item => {
+                item.classList.remove('show');
             });
-        
-            // Salin Link
-            wrapper.querySelector('.copy-btn').addEventListener('click', async () => {
-                try {
+
+            // Buka menu yang dipilih
+            if (!isOpen) {
+                menu.classList.add('show');
+            }
+        });
+
+        // Salin link
+        wrapper.querySelector('.copy-btn').addEventListener('click', async function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            try {
+                await navigator.clipboard.writeText(link.href);
+                alert('Link berhasil disalin!');
+            } catch (error) {
+                const temp = document.createElement('textarea');
+                temp.value = link.href;
+                document.body.appendChild(temp);
+                temp.select();
+                document.execCommand('copy');
+                temp.remove();
+                alert('Link berhasil disalin!');
+            }
+
+            menu.classList.remove('show');
+        });
+
+        // Share
+        wrapper.querySelector('.share-btn').addEventListener('click', async function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            try {
+                if (navigator.share) {
+                    await navigator.share({
+                        title: 'CS STORE',
+                        text: 'Kunjungi CS STORE!',
+                        url: link.href
+                    });
+                } else {
                     await navigator.clipboard.writeText(link.href);
                     alert('Link berhasil disalin!');
-                } catch (error) {
-                    alert('Gagal menyalin link. Silakan coba lagi.');
                 }
-        
-                menu.classList.remove('show');
-            });
-        
-            // Share Link
-            wrapper.querySelector('.share-btn').addEventListener('click', async () => {
-                const shareData = {
-                    title: 'CS STORE',
-                    text: 'Kunjungi CS STORE!',
-                    url: link.href
-                };
-        
-                try {
-                    if (navigator.share) {
-                        await navigator.share(shareData);
-                    } else {
-                        await navigator.clipboard.writeText(link.href);
-                        alert('Browser tidak mendukung Share. Link berhasil disalin!');
-                    }
-                } catch (error) {
-                    if (error.name !== 'AbortError') {
-                        alert('Gagal membagikan link.');
-                    }
+            } catch (error) {
+                if (error.name !== 'AbortError') {
+                    alert('Gagal membagikan link.');
                 }
-        
-                menu.classList.remove('show');
-            });
-        
+            }
+
+            menu.classList.remove('show');
         });
+
+    });
+
+    // Klik di luar menu untuk menutup
+    document.addEventListener('click', function () {
+        document.querySelectorAll('.action-menu').forEach(menu => {
+            menu.classList.remove('show');
+        });
+    });
+
+});
+
         
         // Tutup menu ketika klik di luar
         document.addEventListener('click', () => {
