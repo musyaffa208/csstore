@@ -340,22 +340,22 @@
 }
 
 
-/* Matikan zoom hover lama pada ballon */
-.link-item:hover {
-    transform: none;
-}
 
-/* Animasi satu kesatuan */
+/* Animasi hover mengikuti ballon */
 .link-wrapper {
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Zoom seluruh komponen */
 .link-wrapper:hover {
     transform: translateY(-8px) scale(1.02);
 }
 
-/* Efek ballon saat hover */
+/* Hilangkan transform hover bawaan ballon */
+.link-item:hover {
+    transform: none;
+}
+
+/* Efek visual ballon */
 .link-wrapper:hover .link-item {
     background: rgba(255, 255, 255, 0.2);
     border-color: rgba(255, 255, 255, 0.4);
@@ -365,14 +365,9 @@
         inset 0 1px 0 rgba(255,255,255,0.4);
 }
 
-/* Efek titik tiga saat hover */
+/* Efek visual titik tiga */
 .link-wrapper:hover .more-btn {
     background: rgba(255,255,255,0.3);
     border-color: rgba(255,255,255,0.4);
     box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-}
-
-/* Efek klik */
-.link-wrapper:active {
-    transform: translateY(-4px) scale(0.98);
 }
