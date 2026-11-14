@@ -339,24 +339,40 @@
     }
 }
 
-/* Animasi titik tiga mengikuti ballon */
-.more-btn {
-    transition: 
-        background 0.4s ease,
-        border-color 0.4s ease,
-        box-shadow 0.4s ease,
-        transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+/* Matikan zoom hover lama pada ballon */
+.link-item:hover {
+    transform: none;
 }
 
-/* Saat ballon di-hover */
+/* Animasi satu kesatuan */
+.link-wrapper {
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Zoom seluruh komponen */
+.link-wrapper:hover {
+    transform: translateY(-8px) scale(1.02);
+}
+
+/* Efek ballon saat hover */
+.link-wrapper:hover .link-item {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow:
+        0 20px 50px rgba(0,0,0,0.4),
+        0 0 30px rgba(255,255,255,0.2),
+        inset 0 1px 0 rgba(255,255,255,0.4);
+}
+
+/* Efek titik tiga saat hover */
 .link-wrapper:hover .more-btn {
     background: rgba(255,255,255,0.3);
     border-color: rgba(255,255,255,0.4);
     box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-    transform: translateY(-50%) scale(1.08);
 }
 
-/* Saat ballon diklik */
-.link-wrapper:active .more-btn {
-    transform: translateY(-50%) scale(0.98);
+/* Efek klik */
+.link-wrapper:active {
+    transform: translateY(-4px) scale(0.98);
 }
